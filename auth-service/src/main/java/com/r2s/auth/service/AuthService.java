@@ -36,6 +36,7 @@ public class AuthService {
 
         userRepository.save(user) ;
 
+
     }
     public AuthResponse login(LoginRequest request){
         User user = userRepository.findByUsername(request.getUsername())
