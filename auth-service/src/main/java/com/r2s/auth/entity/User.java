@@ -2,6 +2,7 @@ package com.r2s.auth.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 
 @Entity
@@ -12,9 +13,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "PASSWORD không được để trống")
     @Column(nullable = false)
     private String password ;
 
+
+    @NotBlank(message = " USERNAME không được để trống")
     @Column(nullable = false , unique = true)
     private String username ;
 
