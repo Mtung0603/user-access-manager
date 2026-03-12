@@ -5,6 +5,7 @@ import com.r2s.auth.dto.AuthResponse;
 import com.r2s.auth.dto.LoginRequest;
 import com.r2s.auth.dto.RegisterRequest;
 import com.r2s.auth.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,7 @@ private final AuthService authService ;
 
     @PostMapping ("/register")
 
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request){
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest request){
         authService.register(request);
         return ResponseEntity.ok("User registered successful") ;
 
