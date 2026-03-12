@@ -1,6 +1,7 @@
 package com.r2s.auth.controller;
 
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import javax.swing.plaf.PanelUI;
 
 @RestController
 @RequestMapping("/role")
+@SecurityRequirement(name = "bearerAuth")
 public class RoleController {
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER')")
