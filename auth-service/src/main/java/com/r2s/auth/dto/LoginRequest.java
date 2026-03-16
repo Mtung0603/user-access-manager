@@ -1,8 +1,13 @@
 package com.r2s.auth.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class LoginRequest {
 
+
+    @NotBlank(message = "Username khong duoc bo trong")
     private String username ;
+    @NotBlank(message = "Password khong duoc bo torng ")
     private String password ;
 
     public LoginRequest() {

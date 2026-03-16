@@ -7,12 +7,15 @@ public class RegisterRequest {
 
 
     @NotBlank(message = "User name khong duoc bo trong")
-    private String username ;
-    private String password ;
-    private Role role ;
+    private String username;
+
+    @NotBlank(message = "Password khong duoc de trong")
+    private String password;
+    private Role role;
 
     public RegisterRequest() {
     }
+
 
     public RegisterRequest(String username, String password) {
         this.username = username;
