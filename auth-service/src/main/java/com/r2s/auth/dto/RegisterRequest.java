@@ -1,8 +1,12 @@
 package com.r2s.auth.dto;
 
 import com.r2s.auth.entity.Role;
+import jakarta.validation.constraints.NotBlank;
 
 public class RegisterRequest {
+
+
+    @NotBlank(message = "User name khong duoc bo trong")
     private String username ;
     private String password ;
     private Role role ;
