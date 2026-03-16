@@ -4,6 +4,7 @@ package com.r2s.auth.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,8 +13,8 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-
-    private final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    @Value("${jwt.secret}")
+    private  String  SECRET_KEY   ;
 
     public String generateToken(String username ){
         return Jwts.builder()
@@ -33,6 +34,10 @@ public class JwtUtil {
 
     public boolean validateToken(String token , UserDetails userDetails){
         final String username = extractUsername(token);
+        System.out.println("Token username: " + username);
+        System.out.println("UserDetails username: " + userDetails.getUsername());
+        System.out.println("Is expired: " + isTokenExpired(token));
+        System.out.println("Authorities: " + userDetails.getAuthorities());
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token)) ;
 
     }

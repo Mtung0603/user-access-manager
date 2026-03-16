@@ -36,7 +36,9 @@ public class JwtFilter extends OncePerRequestFilter {
                 username = jwtUtil.extractUsername(token);
             }
         } catch (Exception e) {
-           e.getMessage() ;
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Token khong hop le");
+            return ;
         }
 
         try {
@@ -47,10 +49,18 @@ public class JwtFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                }else {
+                    // ← THÊM ĐOẠN NÀY
+                    System.out.println("validateToken = FALSE"); // Xem log
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.getWriter().write("Token khong hop le hoac het han");
+                    return;
                 }
             }
         } catch (Exception e) {
-           e.getMessage();
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Xac thuc that bai");
+            return ;
         }
 
         chain.doFilter(request, response);

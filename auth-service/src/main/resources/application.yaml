@@ -41,7 +41,7 @@ spring:
 
 
 jwt:
-  secret: your-secret-key-must-be-at-least-256-bits-long
+  secret: r2sSupersecretkeyMustBeAtLeast256BitsLong1234
   expiration: 86400000
 
 
