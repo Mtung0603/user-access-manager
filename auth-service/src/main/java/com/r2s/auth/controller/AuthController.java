@@ -30,7 +30,7 @@ private final AuthService authService ;
 
     }
     @PostMapping("/login")
-    public  ResponseEntity<AuthResponse>login(@RequestBody LoginRequest request){
+    public  ResponseEntity<AuthResponse>login(@RequestBody  @Valid LoginRequest request){
         return ResponseEntity.ok(authService.login(request)) ;
     }
 
