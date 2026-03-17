@@ -35,26 +35,21 @@ public class JwtFilter extends OncePerRequestFilter {
                 token = authHeader.substring(7);
                 username = jwtUtil.extractUsername(token);
             }
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Token khong hop le");
-            return ;
-        }
 
-        try {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                 if (jwtUtil.validateToken(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Xac thuc that bai");
-            return ;
+            response.getWriter().write("Token khong hop le");
+            return;
         }
 
         chain.doFilter(request, response);
