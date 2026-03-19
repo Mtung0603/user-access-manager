@@ -2,11 +2,14 @@ package com.r2s.auth.config;
 
 import com.r2s.auth.security.JwtFilter;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,10 +20,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
     private final UserDetailsService userDetailsService;
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     public SecurityConfig(JwtFilter jwtFilter, UserDetailsService userDetailsService) {
         this.jwtFilter = jwtFilter;
@@ -29,16 +35,29 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http
+                .csrf(csrf -> csrf.disable())
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {
+                            System.out.println("[AUTH ENTRY POINT] 401 Unauthorized triggered for URL: " + request.getRequestURI());
+                            System.out.println("Exception: " + authException.getClass().getName() + " - " + authException.getMessage());
+                            authException.printStackTrace();  // để xem stack nếu cần
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                            response.getWriter().write("Unauthorized");
+                            response.setContentType("text/plain; charset=UTF-8");
+                            response.getWriter().write("Unauthorized - Vui long dang nhap lai");
                         })
-                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                            response.getWriter().write("Access Denied - Ban khong co quyen");
-                        })
+//                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+//                            System.out.println("[ACCESS DENIED HANDLER] 403 Forbidden triggered for URL: " + request.getRequestURI());
+//                            System.out.println("Denied reason: " + accessDeniedException.getMessage());
+//                            accessDeniedException.printStackTrace();
+//                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//                            response.setContentType("text/plain; charset=UTF-8");
+//                            response.getWriter().write("Access Denied - Ban khong co quyen");
+//                        })
+
+                                .accessDeniedHandler(customAccessDeniedHandler)
+    //})
+
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
@@ -48,16 +67,19 @@ public class SecurityConfig {
                                 "/api-docs/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
+                        //.requestMatchers("/role/admin").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                // Dòng quan trọng nhất: tắt anonymous filter
+                .anonymous(AbstractHttpConfigurer::disable);
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
+        System.out.println("hellio");
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

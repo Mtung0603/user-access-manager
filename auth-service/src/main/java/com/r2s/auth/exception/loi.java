@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class loi {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<String> handleUsernamNotFound(UsernameNotFoundException e){
+        System.out.println("ashdusad");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage()) ;
     }
 
