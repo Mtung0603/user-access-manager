@@ -1,12 +1,7 @@
-package com.r2s.auth.entity;
+package Entity;
 
-
+import com.r2s.auth.entity.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-
-
-@Entity
-@Table(name = "users")
 
 public class User {
     @Id
@@ -85,3 +80,4 @@ public class User {
         this.username = username;
     }
 }
+

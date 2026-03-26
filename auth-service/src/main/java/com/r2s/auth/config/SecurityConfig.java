@@ -25,8 +25,8 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
     private final UserDetailsService userDetailsService;
-    @Autowired
-    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
+
 
     public SecurityConfig(JwtFilter jwtFilter, UserDetailsService userDetailsService) {
         this.jwtFilter = jwtFilter;
@@ -46,16 +46,16 @@ public class SecurityConfig {
                             response.setContentType("text/plain; charset=UTF-8");
                             response.getWriter().write("Unauthorized - Vui long dang nhap lai");
                         })
-//                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-//                            System.out.println("[ACCESS DENIED HANDLER] 403 Forbidden triggered for URL: " + request.getRequestURI());
-//                            System.out.println("Denied reason: " + accessDeniedException.getMessage());
-//                            accessDeniedException.printStackTrace();
-//                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-//                            response.setContentType("text/plain; charset=UTF-8");
-//                            response.getWriter().write("Access Denied - Ban khong co quyen");
-//                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            System.out.println("[ACCESS DENIED HANDLER] 403 Forbidden triggered for URL: " + request.getRequestURI());
+                            System.out.println("Denied reason: " + accessDeniedException.getMessage());
+                            accessDeniedException.printStackTrace();
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.setContentType("text/plain; charset=UTF-8");
+                            response.getWriter().write("Access Denied - Ban khong co quyen");
+                        })
 
-                                .accessDeniedHandler(customAccessDeniedHandler)
+
     //})
 
                 )
@@ -67,7 +67,7 @@ public class SecurityConfig {
                                 "/api-docs/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
-                        //.requestMatchers("/role/admin").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -76,7 +76,7 @@ public class SecurityConfig {
                 .anonymous(AbstractHttpConfigurer::disable);
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        System.out.println("hellio");
+
         return http.build();
     }
 

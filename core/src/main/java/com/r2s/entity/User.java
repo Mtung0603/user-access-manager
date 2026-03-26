@@ -1,9 +1,7 @@
-package com.r2s.auth.entity;
+package com.r2s.entity;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-
 
 @Entity
 @Table(name = "users")
