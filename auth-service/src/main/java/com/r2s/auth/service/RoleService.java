@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Service
 public class RoleService {
-    @PreAuthorize("hasRole('USERS')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> userAccess(){
         return ResponseEntity.ok("hello user") ;
     }
