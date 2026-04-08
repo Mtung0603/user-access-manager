@@ -1,15 +1,14 @@
-package Service;
+package com.r2s.user.Service;
 
-import com.r2s.auth.entity.User;
-import com.r2s.auth.repository.UserRepository;
-import controller.UserController;
-import dto.UpdateUserRequest;
-import dto.UserResponse;
+import com.r2s.user.Entity.User;
+import com.r2s.user.repository.UserRepository;
+import com.r2s.user.dto.UpdateUserRequest;
+import com.r2s.user.dto.UserResponse;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class UserService {
 
     private final UserRepository repo ;
@@ -38,7 +37,11 @@ public class UserService {
    }
 
    public void deleteUser(String username){
-        repo.deleteByUsername(username);
+           if (!repo.existsByUsername(username)){
+               throw new UsernameNotFoundException("khong tim thay " + username);
+           }
+           repo.deleteByUsername(username);
+
    }
 
 }

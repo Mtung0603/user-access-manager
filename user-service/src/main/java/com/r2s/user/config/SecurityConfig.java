@@ -1,6 +1,6 @@
-package config;
+package com.r2s.user.config;
 
-import com.r2s.auth.security.JwtFilter;
+
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 
-    @Configuration
-    @EnableWebSecurity
+@Configuration("userSecurityConfig")
+@EnableWebSecurity
     @EnableMethodSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
     public class SecurityConfig {

@@ -1,4 +1,4 @@
-package dto;
+package com.r2s.user.dto;
 
 public class UpdateUserRequest {
     private String email ;

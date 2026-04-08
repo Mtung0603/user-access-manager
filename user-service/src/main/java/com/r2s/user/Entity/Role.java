@@ -1,4 +1,4 @@
-package Entity;
+package com.r2s.user.Entity;
 
 
     public enum Role {

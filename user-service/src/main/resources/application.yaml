@@ -20,5 +20,5 @@ spring:
     enabled: false
 
 jwt:
-  secret: r2s-super-secret-key-for-jwt-token-signing-2024
+  secret: r2sSupersecretkeyMustBeAtLeast256BitsLong1234
   expiration: 86400000

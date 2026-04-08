@@ -1,16 +1,17 @@
-package controller;
+package com.r2s.user.controller;
 
 
-import Service.UserService;
+import com.r2s.user.Service.UserService;
 
-import dto.UpdateUserRequest;
-import dto.UserResponse;
+import com.r2s.user.dto.UpdateUserRequest;
+import com.r2s.user.dto.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.Authenticator;
+
 import java.util.List;
 
 @RestController
@@ -51,7 +52,11 @@ public class UserController {
     @DeleteMapping("/{username}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUser(@PathVariable String username){
-        userService.deleteUser(username);
-        return ResponseEntity.noContent().build() ;
+       try{
+           userService.deleteUser(username);
+           return  ResponseEntity.noContent().build();
+       }catch (UsernameNotFoundException e){
+           return ResponseEntity.notFound().build();
+       }
     }
 }
