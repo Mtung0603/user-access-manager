@@ -12,6 +12,8 @@ public class RegisterRequest {
     @NotBlank(message = "Password khong duoc de trong")
     private String password;
     private Role role;
+    private String email ;
+    private String fullname ;
 
     public RegisterRequest() {
     }
@@ -44,5 +46,21 @@ public class RegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 }

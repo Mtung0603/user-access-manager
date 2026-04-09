@@ -49,6 +49,8 @@ public class UserController {
 
     }
 
+
+
     @DeleteMapping("/{username}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUser(@PathVariable String username){
@@ -59,4 +61,17 @@ public class UserController {
            return ResponseEntity.notFound().build();
        }
     }
+
+    @PutMapping("/{username}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserResponse> UpdateByAdmin(
+            @PathVariable String  username ,
+            @RequestBody UpdateUserRequest request){
+        try{
+            return ResponseEntity.ok(userService.updateUser(username,request));
+        } catch (UsernameNotFoundException e) {
+             return ResponseEntity.notFound().build() ;
+        }
+    }
+
 }

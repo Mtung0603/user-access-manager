@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Import;
 
 
 @SpringBootApplication
-@Import(com.r2s.auth.security.JwtUtil.class)  // ← chỉ import JwtUtil thôi
+@Import(com.r2s.auth.security.JwtUtil.class)
 public class UserServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserServiceApplication.class, args);
