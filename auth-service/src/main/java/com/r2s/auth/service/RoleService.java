@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Service
 public class RoleService {
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> userAccess(){
-        return ResponseEntity.ok("hello user") ;
+    public ResponseEntity<String> userAccess() {
+        return ResponseEntity.ok("hello user");
     }
 
 
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> adminAccess(){
-        return ResponseEntity.ok("hello admin") ;
+    public ResponseEntity<String> adminAccess() {
+        return ResponseEntity.ok("hello admin");
     }
 
 
     @PreAuthorize("hasRole('MODERATOR')")
-    public ResponseEntity<String> moderatorAccess(){
-        return ResponseEntity.ok("hello MODERATOR") ;
+    public ResponseEntity<String> moderatorAccess() {
+        return ResponseEntity.ok("hello MODERATOR");
     }
 
 }

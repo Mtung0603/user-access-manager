@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .authenticationEntryPoint((request, response, authException) -> {
                             System.out.println("[AUTH ENTRY POINT] 401 Unauthorized triggered for URL: " + request.getRequestURI());
                             System.out.println("Exception: " + authException.getClass().getName() + " - " + authException.getMessage());
-                            authException.printStackTrace();  // để xem stack nếu cần
+                            authException.printStackTrace();
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.setContentType("text/plain; charset=UTF-8");
                             response.getWriter().write("Unauthorized - Vui long dang nhap lai");
